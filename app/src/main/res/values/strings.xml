@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">After_Party</string>
+    <string name="GPS">나의 위치는?</string>
+    <string name="title_activity_main2">MainActivity2</string>
+</resources>
