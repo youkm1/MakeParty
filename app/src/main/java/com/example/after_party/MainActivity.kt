@@ -33,10 +33,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var splashScreen: SplashScreen
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
         splashScreen = installSplashScreen()
         startSplash()
         setContent {
