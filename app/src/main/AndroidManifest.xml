@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/After_PartyTheme"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD8M340mkayzxKph9ZUuAQ8mE_s6i5q9EI" />
         <activity
             android:name=".DetailReservation"
             android:exported="false" />
