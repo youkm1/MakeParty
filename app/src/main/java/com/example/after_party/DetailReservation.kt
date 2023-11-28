@@ -11,8 +11,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class DetailReservation : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
-    private val storeLat = 37.54276779 // 가게의 위도
-    private val storeLng = 126.97374716 // 가게의 경도
+    private val storeLat = 37.54276779 // 가게 위도
+    private val storeLng = 126.97374716 // 가게 경도
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
