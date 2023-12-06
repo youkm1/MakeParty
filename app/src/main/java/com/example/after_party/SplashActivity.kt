@@ -66,6 +66,7 @@ class SplashActivity : ComponentActivity() {
         ) {
             delay(2000)
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+
         }
 
         Column(
@@ -84,9 +85,8 @@ class SplashActivity : ComponentActivity() {
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp
-                )
+            )
         }
     }
-
 }
 
