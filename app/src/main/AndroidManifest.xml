@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/After_PartyTheme"
         tools:targetApi="31">
-
         <activity
-            android:name=".MainActivity"
+<<<<<<< HEAD
+            android:name=".MyPageActivity"
+            android:exported="false"
+            android:label="@string/title_activity_my_page"
+            android:theme="@style/After_PartyTheme" />
+        <activity
+            android:name=".EventActivity"
+            android:exported="false"
+            android:label="@string/title_activity_event"
+            android:theme="@style/After_PartyTheme" />
+=======
+            android:name=".reserveActivity"
+            android:exported="false" />
+>>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
+        <activity
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/After_PartyTheme">
             <intent-filter>
@@ -26,6 +43,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".MainActivity"
+<<<<<<< HEAD
+            android:theme="@style/After_PartyTheme" />
+=======
+            android:theme="@style/After_PartyTheme"></activity>
+>>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
     </application>
 
 </manifest>

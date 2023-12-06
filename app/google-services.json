@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "583084653711",
+    "project_id": "directed-sensor-403711",
+    "storage_bucket": "directed-sensor-403711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583084653711:android:797cea4327967ab67b84fa",
+        "android_client_info": {
+          "package_name": "com.example.after_party"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLkcsSRLuikRAMJuBuS1ZFZg9Ro7xM_4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
