@@ -85,7 +85,8 @@ class SplashActivity : ComponentActivity() {
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp
+            )
+        }
     }
-
 }
 
