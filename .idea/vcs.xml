@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+<<<<<<< HEAD
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+=======
+<<<<<<< HEAD
+    <mapping directory="" vcs="Git" />
+=======
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MakeParty" vcs="Git" />
+>>>>>>> bc92149 (Addded xml(login,reservePage), images.)
+>>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
+  </component>
+</project>
