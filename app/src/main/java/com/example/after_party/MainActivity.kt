@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import android.os.Bundle
-<<<<<<< HEAD
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,28 +19,23 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-=======
 import android.widget.ImageButton
->>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-<<<<<<< HEAD
 
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 
 import androidx.compose.foundation.layout.Spacer
-=======
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
->>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -49,17 +43,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
-<<<<<<< HEAD
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-=======
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
->>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -67,20 +58,16 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-<<<<<<< HEAD
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.LaunchedEffect
-=======
->>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-<<<<<<< HEAD
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -395,19 +382,20 @@ fun line() {
             end = Offset(width, 0f),
             strokeWidth = 3f
         )
-=======
-                    MainScreen()
-                }
-            }
-        }
->>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
     }
 }
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun MainScreen() {
+        //val navController = rememberNavController() //mainscreen 안 이동 담당
+        var text by rememberSaveable { mutableStateOf("") }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.background(colorResource(id = R.color.seed))
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-<<<<<<< HEAD
 fun ShowRestaurant() {
     Text(
         text = "나와 가까운 식당",
@@ -461,7 +449,6 @@ fun ShowRestaurant() {
         }
     }
 }
-=======
 fun MainScreen() {
     var text by rememberSaveable { mutableStateOf("") }
 
@@ -597,6 +584,7 @@ fun MainScreen() {
             }
         }
     }
+}
 
 }
 
@@ -628,4 +616,3 @@ fun MainScreenpre() {
     MainScreen()
 
 }
->>>>>>> bd8d0b13384ce4f24686db4a2e181cf04788f26d
