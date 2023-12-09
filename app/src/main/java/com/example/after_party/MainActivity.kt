@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
@@ -63,6 +64,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -386,6 +388,7 @@ fun line() {
 
 @Composable
 fun ShowRestaurant() {
+    val context=LocalContext.current
     Text(
         text = "나와 가까운 식당",
         fontWeight = FontWeight.ExtraBold,
@@ -432,6 +435,8 @@ fun ShowRestaurant() {
                     .wrapContentSize()
                     .align(Alignment.Bottom),
                 onClick = {
+                    val intent = Intent(context,reserveActivity::class.java)
+                    startActivity(context,intent,null)
                 }) {
                 Text("예약하러 가기", fontWeight = FontWeight.ExtraLight, fontSize = 9.sp)
             }
