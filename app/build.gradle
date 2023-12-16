@@ -6,6 +6,9 @@ plugins {
     id 'kotlin-kapt'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'com.example.after_party'
     compileSdk 34
@@ -25,6 +28,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "GOOGLE_API_KEY", properties['google_api_key']
+        manifestPlaceholders = [GOOGLE_API_KEY: "${properties['google_api_key']}"]
     }
 
     buildTypes {
@@ -51,6 +57,7 @@ android {
 }
 
 dependencies {
+    implementation( "androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01")
     implementation('com.google.android.gms:play-services-location:21.0.1')
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -97,6 +104,7 @@ dependencies {
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'com.google.firebase:firebase-database:20.3.0'
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation platform('androidx.compose:compose-bom:2023.03.00')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
