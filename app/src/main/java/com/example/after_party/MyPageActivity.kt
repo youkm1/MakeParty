@@ -1,6 +1,7 @@
 package com.example.after_party
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -36,8 +37,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -45,13 +48,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.data.BottomNavigationItem
 import com.example.after_party.data.User
-import com.example.after_party.databinding.ActivityMyPageBinding
+
+import com.google.android.play.integrity.internal.t
 
 
 class MyPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+val context = applicationContext
         setContent {
 
             After_PartyTheme {
@@ -60,7 +64,7 @@ class MyPageActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    myPage(context = applicationContext)
+                    myPage()
                     bottomApp()
 
 
@@ -73,25 +77,33 @@ class MyPageActivity : ComponentActivity() {
 }
 
 @Composable
-fun myPage(context: Context) {
-    val user = User() //data에 있는 내가 만든 데이터클래스(User) 사용한 것
+fun myPage() {
+    val context = LocalContext.current
     AndroidView(factory = {
         View.inflate(it, R.layout.activity_my_page, null)
 
     },
+
         modifier = Modifier.fillMaxSize(),
         update = {
+
             val logoutBtn = it.findViewById<Button>(R.id.logout_btn)
             logoutBtn.setOnClickListener {
                 Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
             }
+
+            val editBtn = it.findViewById<Button>(R.id.edit_btn)
+            editBtn.setOnClickListener {
+                val intent = Intent(context, MyPageEdit::class.java)
+                context.startActivity(intent)
+            }
             val WelcomeTxt = it.findViewById<TextView>(R.id.WelcomeText)
 
-            WelcomeTxt.text = "${user.name}님 안녕하세요"
+            WelcomeTxt.text = "user1 님 안녕하세요"
         })
-
-
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

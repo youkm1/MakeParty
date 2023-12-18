@@ -16,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.after_party.databinding.ActivityMyPageEditBinding
 
 class MyPageEdit : AppCompatActivity() {
     private lateinit var profileImage: ImageView
