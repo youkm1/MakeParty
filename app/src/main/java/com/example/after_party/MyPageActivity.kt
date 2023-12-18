@@ -42,9 +42,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 
 
+
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
+
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -52,11 +57,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.data.BottomNavigationItem
+
 import com.example.after_party.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
+
+import com.example.after_party.data.User
+
+import com.google.android.play.integrity.internal.t
+
 
 
 class MyPageActivity : ComponentActivity() {
@@ -65,7 +76,7 @@ class MyPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
+val context = applicationContext
         setContent {
 
             After_PartyTheme {
@@ -74,7 +85,13 @@ class MyPageActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyPageScreen()
+
+                    //MyPageScreen()
+
+                    myPage()
+                    bottomApp()
+
+
 
                 }
             }
@@ -110,6 +127,7 @@ val emailVerified = it.isEmailVerified
                     //startActivity(context,Intent(context,LoginActivity::class.java),null)
                     startActivity(context,Intent(context, LoginActivity::class.java),null)
 
+
                 }
                 val editBtn = it.findViewById<Button>(R.id.edit_btn)
                 editBtn.setOnClickListener {
@@ -121,6 +139,34 @@ val emailVerified = it.isEmailVerified
 
 
             })
+
+@Composable
+fun myPage() {
+    val context = LocalContext.current
+    AndroidView(factory = {
+        View.inflate(it, R.layout.activity_my_page, null)
+
+    },
+
+        modifier = Modifier.fillMaxSize(),
+        update = {
+
+            val logoutBtn = it.findViewById<Button>(R.id.logout_btn)
+            logoutBtn.setOnClickListener {
+                Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+            }
+
+            val editBtn = it.findViewById<Button>(R.id.edit_btn)
+            editBtn.setOnClickListener {
+                val intent = Intent(context, MyPageEdit::class.java)
+                context.startActivity(intent)
+            }
+            val WelcomeTxt = it.findViewById<TextView>(R.id.WelcomeText)
+
+            WelcomeTxt.text = "user1 님 안녕하세요"
+        })
+}
+
 
 
 

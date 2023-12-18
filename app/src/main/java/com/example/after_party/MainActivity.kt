@@ -1,16 +1,8 @@
 package com.example.after_party
 
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,10 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
@@ -56,7 +45,6 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -71,7 +59,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -80,7 +67,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.data.BottomNavigationItem
+
 import com.example.after_party.login.LoginViewModel
+
+
+class MainActivity : ComponentActivity() {
+
+
+
+//오류땜에 일단 주석 import com.example.after_party.login.LoginViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -116,54 +111,58 @@ class MainActivity : ComponentActivity() {
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun bottomApp() {
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun bottomApp() {
 
-    val items = listOf(
-        BottomNavigationItem(
-            title = "Home",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-            hasNews = false,
-        ),
-        BottomNavigationItem(
-            title = "Event",
-            selectedIcon = Icons.Filled.Favorite,
-            unselectedIcon = Icons.Outlined.Favorite,
-            hasNews = true,
-            badgeCount = 3
-        ),
-        BottomNavigationItem(
-            title = "Search",
-            selectedIcon = Icons.Filled.Search,
-            unselectedIcon = Icons.Outlined.Search,
-            hasNews = false,
-        ),
-        BottomNavigationItem(
-            title = "MyPage",
-            selectedIcon = Icons.Filled.Person,
-            unselectedIcon = Icons.Outlined.Person,
-            hasNews = true,
-        ),
-    )
-    var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            NavigationBar {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        selected = selectedItemIndex == index,
-                        onClick = {
-                            selectedItemIndex = index
-                            navController.navigate(item.title) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+        val items = listOf(
+            BottomNavigationItem(
+                title = "Home",
+                selectedIcon = Icons.Filled.Home,
+                unselectedIcon = Icons.Outlined.Home,
+                hasNews = false,
+            ),
+            BottomNavigationItem(
+                title = "Event",
+                selectedIcon = Icons.Filled.Favorite,
+                unselectedIcon = Icons.Outlined.Favorite,
+                hasNews = true,
+                badgeCount = 3
+            ),
+            BottomNavigationItem(
+                title = "Search",
+                selectedIcon = Icons.Filled.Search,
+                unselectedIcon = Icons.Outlined.Search,
+                hasNews = false,
+            ),
+            BottomNavigationItem(
+                title = "MyPage",
+                selectedIcon = Icons.Filled.Person,
+                unselectedIcon = Icons.Outlined.Person,
+                hasNews = true,
+            ),
+        )
+        var selectedItemIndex by rememberSaveable {
+            mutableStateOf(0)
+        }
+        val navController = rememberNavController()
+        Scaffold(
+            bottomBar = {
+                NavigationBar {
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            selected = selectedItemIndex == index,
+                            onClick = {
+                                selectedItemIndex = index
+                                navController.navigate(item.title) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+
                                 }
                                 launchSingleTop = true
                                 restoreState = true
@@ -190,28 +189,34 @@ fun bottomApp() {
                         })
                 }
             }
+
         }
-    ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "Home",
-            Modifier.padding(innerPadding)
-        ) {
-            //composable 안되는 일반 뷰 파일이면 인텐트 갈길거
-            composable("Home") { MainScreen() }
-            composable("Event") { EventScreen() }
-            composable("Search") {}
-            composable("MyPage") { myPage() }
+        ) { innerPadding ->
+            NavHost(
+                navController = navController,
+                startDestination = "Home",
+                Modifier.padding(innerPadding)
+            ) {
+                //composable 안되는 일반 뷰 파일이면 인텐트 갈길거
+                composable("Home") { MainScreen() }
+                composable("Event") { EventScreen() }
+                composable("Search") { PopularListScreen() }
+                composable("MyPage") { myPage() }
+            }
+
         }
     }
 }
 
-}
+
+
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
+
     val context = LocalContext.current
+
     val settingResultRequest = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { activityResult ->
@@ -308,9 +313,12 @@ fun MainScreen() {
             horizontalArrangement = Arrangement.Center
         ) {
 
+            val context = LocalContext.current
             IconButton(
                 onClick = {
 
+                    val intent = Intent(context, PopularListActivity::class.java)
+                    startActivity(context, intent, null)
                 },
                 modifier =
                 Modifier
@@ -324,6 +332,8 @@ fun MainScreen() {
                     )
             }
             IconButton(onClick = {
+                val intent = Intent(context, RecentlyListActivity::class.java)
+                startActivity(context, intent, null)
             }, modifier = Modifier.size(150.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.recentreserved),
@@ -342,7 +352,10 @@ fun MainScreen() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+            val context = LocalContext.current
             IconButton(onClick = {
+                val intent = Intent(context, DeliciousListActivity::class.java)
+                startActivity(context, intent, null)
             }, modifier = Modifier.size(150.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.tasty),
@@ -351,6 +364,8 @@ fun MainScreen() {
 
             }
             IconButton(onClick = {
+                val intent = Intent(context, VariousListActivity::class.java)
+                startActivity(context, intent, null)
             }, modifier = Modifier.size(150.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.alcohol),
@@ -417,7 +432,7 @@ fun ShowRestaurant() {
         Row {
             Image(
 
-                painter = painterResource(id = R.drawable.restraunt_01),
+                painter = painterResource(id = R.drawable.restauraunt_01),
                 contentDescription = "임시 식당",
                 modifier =
                 Modifier
@@ -462,6 +477,7 @@ fun ShowRestaurant() {
 
 
 
+
 @Composable
 fun AddressIconButton(
     onClick:  () -> Unit,
@@ -484,3 +500,4 @@ fun AddressIconButton(
         }
     }
 }
+
