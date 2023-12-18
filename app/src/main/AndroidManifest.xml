@@ -17,16 +17,16 @@
         android:theme="@style/After_PartyTheme"
         tools:targetApi="31">
         <activity
-            android:name=".GPSActivity"
-            android:exported="true" >
-
-        </activity>
+            android:name=".LoginComposeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login_compose"
+            android:theme="@style/After_PartyTheme" />
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
         <activity
             android:name=".DetailReservation"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MyPageActivity"
             android:exported="false"
@@ -40,6 +40,14 @@
         <activity
             android:name=".reserveActivity"
             android:exported="false" />
+
+        <activity android:name=".MyPageEdit"
+            android:exported="false"
+            android:theme="@style/After_PartyTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -53,19 +61,28 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/After_PartyTheme" >
+            android:theme="@style/After_PartyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:theme="@style/After_PartyTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
     </application>
 
 </manifest>

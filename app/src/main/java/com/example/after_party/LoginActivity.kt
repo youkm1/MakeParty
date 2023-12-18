@@ -1,59 +1,84 @@
 package com.example.after_party
 
-import android.content.Context
+
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.constraintlayout.widget.ConstraintSet.Layout
-import androidx.core.content.ContextCompat.startActivity
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.example.after_party.data.BottomNavigationItem
-import com.example.after_party.databinding.ActivityLoginBinding
+import android.util.Log
 
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+
+import com.example.after_party.databinding.ActivityLoginBinding
+import com.google.firebase.FirebaseApp
+
+import com.google.firebase.auth.FirebaseAuth
+
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
+lateinit var binding: ActivityLoginBinding
+lateinit var auth: FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
-   }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+        binding.loginbtn.setOnClickListener {
+            login()
+        }
+    }
+
+    fun login() {
+        //ID value exists
+        val email = binding.accountName.text.toString()
+        val password = binding.accountPassword.text.toString()
+        val user = auth.currentUser
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (user != null) {
+                        finish()
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
+                }
+                //user data X
+                else {
+                    if (user == null) {
+                        //No ID value
+                        AlertDialog.Builder(this)
+                            .setMessage("Going to Join Page")
+                            .setPositiveButton("ok", object : DialogInterface.OnClickListener {
+                                override fun onClick(dialog: DialogInterface?, which: Int) {
+                                    startActivity(
+                                        Intent(
+                                            this@LoginActivity,
+                                            JoinActivity::class.java
+                                        )
+                                    )
+                                }
+                            })
+                            .setNegativeButton(
+                                "cancel",
+                                object : DialogInterface.OnClickListener {
+                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                                        Log.d("Login", "Join denied")
+                                    }
+                                })
+                            .create()
+                            .show()
+                    }
+
+                }
+            }
+    }
+
+}

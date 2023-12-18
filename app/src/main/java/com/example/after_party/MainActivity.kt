@@ -65,20 +65,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.data.BottomNavigationItem
+import com.example.after_party.login.LoginViewModel
 
 
 class MainActivity : ComponentActivity() {
-    /*val locationText = intent.getStringExtra("address").toString()*/
 
 
-
-   /* override fun onStart() {
+    /* override fun onStart() {
         super.onStart()
         RequestPremissionUtil(this).requestLocation() //요청하기
     }*/
@@ -88,6 +88,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            //val loginViewModel = viewModel(modelClass = LoginViewModel::class.java)
             After_PartyTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -96,7 +97,6 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     MainScreen()
-
                     bottomApp()
 
                 }
@@ -107,104 +107,102 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun bottomApp() {
 
-        val items = listOf(
-            BottomNavigationItem(
-                title = "Home",
-                selectedIcon = Icons.Filled.Home,
-                unselectedIcon = Icons.Outlined.Home,
-                hasNews = false,
-            ),
-            BottomNavigationItem(
-                title = "Event",
-                selectedIcon = Icons.Filled.Favorite,
-                unselectedIcon = Icons.Outlined.Favorite,
-                hasNews = true,
-                badgeCount = 3
-            ),
-            BottomNavigationItem(
-                title = "Search",
-                selectedIcon = Icons.Filled.Search,
-                unselectedIcon = Icons.Outlined.Search,
-                hasNews = false,
-            ),
-            BottomNavigationItem(
-                title = "MyPage",
-                selectedIcon = Icons.Filled.Person,
-                unselectedIcon = Icons.Outlined.Person,
-                hasNews = true,
-            ),
-        )
-        var selectedItemIndex by rememberSaveable {
-            mutableStateOf(0)
-        }
-        val navController = rememberNavController()
-        Scaffold(
-            bottomBar = {
-                NavigationBar {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
-                    items.forEachIndexed { index, item ->
-                        NavigationBarItem(
-                            selected = selectedItemIndex == index,
-                            onClick = {
-                                selectedItemIndex = index
-                                navController.navigate(item.title) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun bottomApp() {
+
+    val items = listOf(
+        BottomNavigationItem(
+            title = "Home",
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
+            hasNews = false,
+        ),
+        BottomNavigationItem(
+            title = "Event",
+            selectedIcon = Icons.Filled.Favorite,
+            unselectedIcon = Icons.Outlined.Favorite,
+            hasNews = true,
+            badgeCount = 3
+        ),
+        BottomNavigationItem(
+            title = "Search",
+            selectedIcon = Icons.Filled.Search,
+            unselectedIcon = Icons.Outlined.Search,
+            hasNews = false,
+        ),
+        BottomNavigationItem(
+            title = "MyPage",
+            selectedIcon = Icons.Filled.Person,
+            unselectedIcon = Icons.Outlined.Person,
+            hasNews = true,
+        ),
+    )
+    var selectedItemIndex by rememberSaveable {
+        mutableStateOf(0)
+    }
+    val navController = rememberNavController()
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        selected = selectedItemIndex == index,
+                        onClick = {
+                            selectedItemIndex = index
+                            navController.navigate(item.title) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
                                 }
-                            },
-                            icon = {
-                                BadgedBox(
-                                    badge = {
-                                        if (item.badgeCount != null) {
-                                            Badge {
-                                                Text(item.badgeCount.toString())
-                                            }
-                                        } else if (item.hasNews) {
-                                            Badge()
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        icon = {
+                            BadgedBox(
+                                badge = {
+                                    if (item.badgeCount != null) {
+                                        Badge {
+                                            Text(item.badgeCount.toString())
                                         }
-                                    }) {
-                                    Icon(
-                                        imageVector = if (index == selectedItemIndex) {
-                                            item.selectedIcon
-                                        } else item.unselectedIcon,
-                                        contentDescription = item.title
-                                    )
-                                }
-                            })
-                    }
+                                    } else if (item.hasNews) {
+                                        Badge()
+                                    }
+                                }) {
+                                Icon(
+                                    imageVector = if (index == selectedItemIndex) {
+                                        item.selectedIcon
+                                    } else item.unselectedIcon,
+                                    contentDescription = item.title
+                                )
+                            }
+                        })
                 }
             }
-        ) { innerPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = "Home",
-                Modifier.padding(innerPadding)
-            ) {
-                //composable 안되는 일반 뷰 파일이면 인텐트 갈길거
-                composable("Home") { MainScreen() }
-                composable("Event") { EventScreen() }
-                composable("Search") {}
-                composable("MyPage") { myPage(context = applicationContext) }
-            }
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = "Home",
+            Modifier.padding(innerPadding)
+        ) {
+            //composable 안되는 일반 뷰 파일이면 인텐트 갈길거
+            composable("Home") { MainScreen() }
+            composable("Event") { EventScreen() }
+            composable("Search") {}
+            composable("MyPage") { myPage() }
         }
     }
-
 }
 
-
+}
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-
 
     val settingResultRequest = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -305,6 +303,7 @@ fun MainScreen() {
 
             IconButton(
                 onClick = {
+
                 },
                 modifier =
                 Modifier
@@ -388,7 +387,7 @@ fun line() {
 
 @Composable
 fun ShowRestaurant() {
-    val context=LocalContext.current
+    val context = LocalContext.current
     Text(
         text = "나와 가까운 식당",
         fontWeight = FontWeight.ExtraBold,
@@ -435,11 +434,13 @@ fun ShowRestaurant() {
                     .wrapContentSize()
                     .align(Alignment.Bottom),
                 onClick = {
-                    val intent = Intent(context,reserveActivity::class.java)
-                    startActivity(context,intent,null)
+                    val intent = Intent(context, reserveActivity::class.java)
+                    startActivity(context, intent, null)
                 }) {
                 Text("예약하러 가기", fontWeight = FontWeight.ExtraLight, fontSize = 9.sp)
             }
         }
     }
 }
+
+
