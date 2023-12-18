@@ -45,6 +45,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -71,7 +72,6 @@ import com.example.after_party.data.BottomNavigationItem
 import com.example.after_party.login.LoginViewModel
 
 
-class MainActivity : ComponentActivity() {
 
 
 
@@ -164,34 +164,31 @@ class MainActivity : ComponentActivity() {
                                     restoreState = true
 
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = {
-                            BadgedBox(
-                                badge = {
-                                    if (item.badgeCount != null) {
-                                        Badge {
-                                            Text(item.badgeCount.toString())
-                                        }
-                                    } else if (item.hasNews) {
-                                        Badge()
-                                    }
-                                }) {
-                                Icon(
-                                    imageVector = if (index == selectedItemIndex) {
-                                        item.selectedIcon
-                                    } else item.unselectedIcon,
-                                    contentDescription = item.title
-                                )
-                            }
-                        })
-                }
-            }
 
-        }
-        ) { innerPadding ->
+                            },
+                            icon = {
+                                BadgedBox(
+                                    badge = {
+                                        if (item.badgeCount != null) {
+                                            Badge {
+                                                Text(item.badgeCount.toString())
+                                            }
+                                        } else if (item.hasNews) {
+                                            Badge()
+                                        }
+                                    }) {
+                                    Icon(
+                                        imageVector = if (index == selectedItemIndex) {
+                                            item.selectedIcon
+                                        } else item.unselectedIcon,
+                                        contentDescription = item.title
+                                    )
+                                }
+                            })
+                    }
+                }
+
+            }   ) { innerPadding ->
             NavHost(
                 navController = navController,
                 startDestination = "Home",
