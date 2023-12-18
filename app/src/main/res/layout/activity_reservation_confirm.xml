@@ -40,5 +40,13 @@
             android:textSize="18sp"
             android:textColor="@color/seed"
             />
+
+        <Button
+            android:id="@+id/home_btn"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홈으로 돌아가기" />
+
     </LinearLayout>
 </LinearLayout>

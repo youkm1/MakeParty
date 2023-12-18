@@ -1,16 +1,8 @@
 package com.example.after_party
 
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,10 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -49,7 +38,6 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -63,7 +51,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -71,14 +58,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.data.BottomNavigationItem
+//오류땜에 일단 주석 import com.example.after_party.login.LoginViewModel
 
 
 class MainActivity : ComponentActivity() {
-    /*val locationText = intent.getStringExtra("address").toString()*/
 
 
-
-   /* override fun onStart() {
+    /* override fun onStart() {
         super.onStart()
         RequestPremissionUtil(this).requestLocation() //요청하기
     }*/
@@ -88,6 +74,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            //val loginViewModel = viewModel(modelClass = LoginViewModel::class.java)
             After_PartyTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -96,7 +83,6 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     MainScreen()
-
                     bottomApp()
 
                 }
@@ -105,6 +91,7 @@ class MainActivity : ComponentActivity() {
 
 
     }
+
 
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -191,20 +178,17 @@ class MainActivity : ComponentActivity() {
                 //composable 안되는 일반 뷰 파일이면 인텐트 갈길거
                 composable("Home") { MainScreen() }
                 composable("Event") { EventScreen() }
-                composable("Search") {}
-                composable("MyPage") { myPage(context = applicationContext) }
+                composable("Search") { PopularListScreen() }
+                composable("MyPage") { myPage() }
             }
         }
     }
 
 }
-
-
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-
 
     val settingResultRequest = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -303,8 +287,11 @@ fun MainScreen() {
             horizontalArrangement = Arrangement.Center
         ) {
 
+            val context = LocalContext.current
             IconButton(
                 onClick = {
+                    val intent = Intent(context, PopularListActivity::class.java)
+                    startActivity(context, intent, null)
                 },
                 modifier =
                 Modifier
@@ -318,6 +305,8 @@ fun MainScreen() {
                     )
             }
             IconButton(onClick = {
+                val intent = Intent(context, RecentlyListActivity::class.java)
+                startActivity(context, intent, null)
             }, modifier = Modifier.size(150.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.recentreserved),
@@ -336,7 +325,10 @@ fun MainScreen() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+            val context = LocalContext.current
             IconButton(onClick = {
+                val intent = Intent(context, DeliciousListActivity::class.java)
+                startActivity(context, intent, null)
             }, modifier = Modifier.size(150.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.tasty),
@@ -345,6 +337,8 @@ fun MainScreen() {
 
             }
             IconButton(onClick = {
+                val intent = Intent(context, VariousListActivity::class.java)
+                startActivity(context, intent, null)
             }, modifier = Modifier.size(150.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.alcohol),
@@ -388,7 +382,7 @@ fun line() {
 
 @Composable
 fun ShowRestaurant() {
-    val context=LocalContext.current
+    val context = LocalContext.current
     Text(
         text = "나와 가까운 식당",
         fontWeight = FontWeight.ExtraBold,
@@ -409,7 +403,7 @@ fun ShowRestaurant() {
         Row {
             Image(
 
-                painter = painterResource(id = R.drawable.restraunt_01),
+                painter = painterResource(id = R.drawable.restauraunt_01),
                 contentDescription = "임시 식당",
                 modifier =
                 Modifier
@@ -435,11 +429,13 @@ fun ShowRestaurant() {
                     .wrapContentSize()
                     .align(Alignment.Bottom),
                 onClick = {
-                    val intent = Intent(context,reserveActivity::class.java)
-                    startActivity(context,intent,null)
+                    val intent = Intent(context, reserveActivity::class.java)
+                    startActivity(context, intent, null)
                 }) {
                 Text("예약하러 가기", fontWeight = FontWeight.ExtraLight, fontSize = 9.sp)
             }
         }
     }
 }
+
+
