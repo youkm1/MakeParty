@@ -107,13 +107,12 @@ val emailVerified = it.isEmailVerified
 
                 val logInBtn = it.findViewById<Button>(R.id.logout_btn)
                 logInBtn.setOnClickListener {
-
-                    context.startActivity(Intent(context, LoginComposeActivity::class.java))
+                    //startActivity(context,Intent(context,LoginActivity::class.java),null)
+                    startActivity(context,Intent(context, LoginActivity::class.java),null)
 
                 }
                 val goProfile = it.findViewById<Button>(R.id.goProfile)
                 goProfile.setOnClickListener {
-
                     context.startActivity(Intent(context, MyPageEdit::class.java))
                 }
                 val WelcomeTxt = it.findViewById<TextView>(R.id.WelcomeText)

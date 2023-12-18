@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.after_party.data.HomeRoutes
 
 import com.example.after_party.login.LoginViewModel
 import com.google.android.play.integrity.internal.t
@@ -82,7 +83,7 @@ class LoginComposeActivity : ComponentActivity() {
                 ) {
 
 
-                    //LogInScreen(onNavToMyPage = { HomeRoutes.Home.name }) {
+                    LogInScreen(onNavToMyPage = { HomeRoutes.Home.name }) {
 
                     }
                 }
@@ -92,15 +93,15 @@ class LoginComposeActivity : ComponentActivity() {
 
     }
 
-
+}
 @Composable
 fun LogInScreen(
-    //loginViewModel: LoginViewModel? = null,
+    loginViewModel: LoginViewModel? = null,
     onNavToMyPage: () -> Unit,
     onNavToSignUpPage: () -> Unit,
 ) {
-    //val loginUiState = loginViewModel?.loginUiState
-    //val isError = loginUiState?.loginError != null
+    val loginUiState = loginViewModel?.loginUiState
+    val isError = loginUiState?.loginError != null
     val context = LocalContext.current
     val user = auth.currentUser
     var email by remember { mutableStateOf("") }
@@ -131,13 +132,13 @@ fun LogInScreen(
                     tint = Color.Unspecified
                 )
             }
-           /* if (isError) {
+            if (isError) {
                 Text(
                     text = loginUiState?.loginError ?: "Unknown Err",
                     color = Color.Red
                 )
             }
-        }*/
+        }
         Spacer(modifier = Modifier.size(50.dp))
 
         OutlinedTextField(
@@ -148,7 +149,7 @@ fun LogInScreen(
             //loginViewModel?.onUserNameChange(it)
             onValueChange = { newEmail ->
                 email = newEmail
-                //loginViewModel?.onUserNameChange(newEmail)
+                loginViewModel?.onUserNameChange(newEmail)
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             leadingIcon = {
@@ -157,11 +158,11 @@ fun LogInScreen(
                     contentDescription = null
                 )
             },
-            //placeholder = { Text("Enter your Email") },
+            placeholder = { Text("Enter your Email") },
             label = {
                 Text(text = "email")
             },
-            //isError = isError
+            isError = isError
         )
         OutlinedTextField(
             value = password,
@@ -171,10 +172,10 @@ fun LogInScreen(
 //loginViewModel?.onPasswordNameChange(password)
             onValueChange = { newPassword ->
                 password = newPassword
-                //loginViewModel?.onPasswordNameChange(newPassword)
+                loginViewModel?.onPasswordNameChange(newPassword)
             },
-            //keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            //placeholder = { Text("Enter your Password") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            placeholder = { Text("Enter your Password") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Lock,
@@ -239,14 +240,14 @@ fun LogInScreen(
                 Text(text = "Signup now!")
             }
         }
-        /*if (loginUiState?.isLoading == true) {
+        if (loginUiState?.isLoading == true) {
             CircularProgressIndicator()
         }
         LaunchedEffect(key1 = loginViewModel?.hasUser) {
             if (loginViewModel?.hasUser == true) {
                 onNavToMyPage.invoke()
             }
-        }*/
+        }
     }
 }
 
@@ -368,5 +369,5 @@ fun previewsingup() {
         SignUpScreen(onNavToMyPage = { /*TODO*/ }) {
 
         }
-    }
+
 }}

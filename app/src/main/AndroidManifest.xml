@@ -17,10 +17,17 @@
         android:theme="@style/After_PartyTheme"
         tools:targetApi="31">
         <activity
+            android:name=".AddressActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginComposeActivity"
             android:exported="false"
             android:label="@string/title_activity_login_compose"
-            android:theme="@style/After_PartyTheme" />
+            android:theme="@style/After_PartyTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
@@ -40,8 +47,8 @@
         <activity
             android:name=".reserveActivity"
             android:exported="false" />
-
-        <activity android:name=".MyPageEdit"
+        <activity
+            android:name=".MyPageEdit"
             android:exported="false"
             android:theme="@style/After_PartyTheme">
             <intent-filter>
@@ -78,11 +85,10 @@
             android:theme="@style/After_PartyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

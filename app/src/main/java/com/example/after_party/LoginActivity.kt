@@ -33,11 +33,11 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.loginbtn.setOnClickListener {
-            login()
+            //login()
         }
     }
 
-    fun login() {
+    /*fun login() {
         //ID value exists
         val email = binding.accountName.text.toString()
         val password = binding.accountPassword.text.toString()
@@ -79,6 +79,6 @@ class LoginActivity : AppCompatActivity() {
 
                 }
             }
-    }
+    }*/
 
 }

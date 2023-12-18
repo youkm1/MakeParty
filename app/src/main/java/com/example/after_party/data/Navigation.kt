@@ -1,4 +1,4 @@
-/*
+
 package com.example.after_party.data
 
 import androidx.compose.runtime.Composable
@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.LogInScreen
 import com.example.after_party.MainScreen
+import com.example.after_party.SignUpScreen
 
 import com.example.after_party.login.LoginViewModel
 import com.example.after_party.myPage
@@ -69,4 +70,4 @@ fun Navigation(
             myPage()
         }
     }
-}*/
+}
