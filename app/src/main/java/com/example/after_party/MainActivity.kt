@@ -15,11 +15,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,16 +36,19 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -52,12 +60,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.after_party.data.BottomNavigationItem
+
+import com.example.after_party.login.LoginViewModel
+
+
+class MainActivity : ComponentActivity() {
+
+
+
 //오류땜에 일단 주석 import com.example.after_party.login.LoginViewModel
 
 
@@ -145,30 +162,35 @@ class MainActivity : ComponentActivity() {
                                     }
                                     launchSingleTop = true
                                     restoreState = true
+
                                 }
-                            },
-                            icon = {
-                                BadgedBox(
-                                    badge = {
-                                        if (item.badgeCount != null) {
-                                            Badge {
-                                                Text(item.badgeCount.toString())
-                                            }
-                                        } else if (item.hasNews) {
-                                            Badge()
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        icon = {
+                            BadgedBox(
+                                badge = {
+                                    if (item.badgeCount != null) {
+                                        Badge {
+                                            Text(item.badgeCount.toString())
                                         }
-                                    }) {
-                                    Icon(
-                                        imageVector = if (index == selectedItemIndex) {
-                                            item.selectedIcon
-                                        } else item.unselectedIcon,
-                                        contentDescription = item.title
-                                    )
-                                }
-                            })
-                    }
+                                    } else if (item.hasNews) {
+                                        Badge()
+                                    }
+                                }) {
+                                Icon(
+                                    imageVector = if (index == selectedItemIndex) {
+                                        item.selectedIcon
+                                    } else item.unselectedIcon,
+                                    contentDescription = item.title
+                                )
+                            }
+                        })
                 }
             }
+
+        }
         ) { innerPadding ->
             NavHost(
                 navController = navController,
@@ -181,14 +203,19 @@ class MainActivity : ComponentActivity() {
                 composable("Search") { PopularListScreen() }
                 composable("MyPage") { myPage() }
             }
+
         }
     }
-
 }
+
+
+
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
+
+    val context = LocalContext.current
 
     val settingResultRequest = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -227,10 +254,9 @@ fun MainScreen() {
 
 
             //드롭다운버튼
-            IconButton(
-                onClick = {
-
-                }) {
+            IconButton(onClick = { //addressEdit()
+            startActivity(context, Intent(context,AddressActivity::class.java),null) }
+            ) {
                 Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "주소창")
             }
 
@@ -290,6 +316,7 @@ fun MainScreen() {
             val context = LocalContext.current
             IconButton(
                 onClick = {
+
                     val intent = Intent(context, PopularListActivity::class.java)
                     startActivity(context, intent, null)
                 },
@@ -363,8 +390,10 @@ fun MainScreen() {
     }
 
 
-}
 
+
+
+}
 
 @Composable
 fun line() {
@@ -415,7 +444,15 @@ fun ShowRestaurant() {
             Column(modifier = Modifier.padding(start = 25.dp, top = 15.dp)) {
                 Text(text = "남영돈", fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 Text("가브리살 항정살 맛집")
-                Text("최대 수용 인원: 50명")
+                Text("최대 수용 인원: 50명\n")
+                Row {
+                    Icon(painter = painterResource(id = R.drawable.star), tint = Color.Unspecified,contentDescription = null, modifier = Modifier
+                        .size(11.dp)
+                        .align(Alignment.Bottom))
+                    Text(text = "  4.3(87)", fontSize = 11.sp, fontWeight = FontWeight.ExtraLight)
+                }
+
+
                 Spacer(modifier = Modifier.padding(30.dp))
 
             }
@@ -438,4 +475,29 @@ fun ShowRestaurant() {
     }
 }
 
+
+
+
+@Composable
+fun AddressIconButton(
+    onClick:  () -> Unit,
+    icon: @Composable ()-> Unit,
+    modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource =
+        remember { MutableInteractionSource() },
+){
+    val isPressed by interactionSource.collectIsPressedAsState()
+    
+    IconButton(onClick = onClick, modifier = modifier,
+        interactionSource = interactionSource){
+        AnimatedVisibility(visible = isPressed) {
+            if (isPressed){
+                OutlinedCard {
+                  
+                }
+            }
+            
+        }
+    }
+}
 
