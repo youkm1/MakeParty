@@ -111,8 +111,8 @@ val emailVerified = it.isEmailVerified
                     startActivity(context,Intent(context, LoginActivity::class.java),null)
 
                 }
-                val goProfile = it.findViewById<Button>(R.id.goProfile)
-                goProfile.setOnClickListener {
+                val editBtn = it.findViewById<Button>(R.id.edit_btn)
+                editBtn.setOnClickListener {
                     context.startActivity(Intent(context, MyPageEdit::class.java))
                 }
                 val WelcomeTxt = it.findViewById<TextView>(R.id.WelcomeText)
