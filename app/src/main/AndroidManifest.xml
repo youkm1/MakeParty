@@ -16,18 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/After_PartyTheme"
         tools:targetApi="31">
-        <activity
-            android:name=".AddressActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginComposeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login_compose"
-            android:theme="@style/After_PartyTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_API_KEY}" />
         <activity
             android:name=".VariousListActivity"
             android:exported="false" />
@@ -41,15 +32,11 @@
             android:name=".PopularListActivity"
             android:exported="false" />
         <activity
-            android:name=".GPSActivity"
-            android:exported="true" />
-
-        <activity
             android:name=".SearchActivity"
             android:exported="false" />
         <activity
             android:name=".DetailReservation"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ReservationConfirmActivity"
             android:exported="false" />
@@ -67,14 +54,6 @@
             android:name=".reserveActivity"
             android:exported="false" />
         <activity
-            android:name=".MyPageEdit"
-            android:exported="false"
-            android:theme="@style/After_PartyTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".SplashActivity"
             android:exported="false"
             android:theme="@style/After_PartyTheme">
@@ -90,18 +69,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true"
-            android:theme="@style/After_PartyTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
     </application>

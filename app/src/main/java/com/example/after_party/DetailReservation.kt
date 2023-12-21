@@ -26,9 +26,9 @@ class DetailReservation : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, reserveActivity::class.java)
             startActivity(intent)
         }
-//        val mapFragment = supportFragmentManager
-//            .findFragmentById(R.id.map) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
